@@ -15,6 +15,6 @@ def print_address():
     else:
     	addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
  
-    #geocode = DbIpCity.get(addr, api_key='free')
+    geocode = DbIpCity.get(addr, api_key='free')
     
-    return addr
+    return geocode.latitude
