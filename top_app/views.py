@@ -4,7 +4,7 @@ from ip2geotools.databases.noncommercial import DbIpCity
 
 bp = Blueprint('home', __name__, url_prefix='/')
 
-@bp.route('/')
+@bp.route('')
 def index():
     return render_template('index.html')
 
