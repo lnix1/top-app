@@ -17,4 +17,4 @@ def print_address():
  
     geocode = DbIpCity.get(addr, api_key='free')
     
-    return geocode.latitude
+    return str(geocode.latitude)
