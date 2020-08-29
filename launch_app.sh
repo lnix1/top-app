@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Create and activate virtual environment
-python3 -m venv venv2
-source "./venv2/bin/activate"
+python3 -m venv venv
+source "./venv/bin/activate"
 
 # Install dependencies to the virtual environment
 pip3 install -r requirements.txt
