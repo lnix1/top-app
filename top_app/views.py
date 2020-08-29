@@ -6,14 +6,24 @@ bp = Blueprint('home', __name__, url_prefix='/')
 
 @bp.route('')
 def index():
+    return render_template('index.html')
 
-    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-    	addr = request.environ['REMOTE_ADDR']
-    else:
-    	addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
- 
+@bp.route('/resource_view', methods=('GET', 'POST'))
+def resource_view():
+    context = {}
+
+    if request.method == 'POST':
+        if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+            addr = request.environ['REMOTE_ADDR']
+        else:
+            addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
+    
     geocode = DbIpCity.get(addr, api_key='free')
 
-    flash(geocode.latitude)
+    context['latitude'] = geocode.latitude
+    context['longitude'] = geocode.longitude
+    context['service_type'] = request.form['service_type']
     
-    return render_template('index.html')
+    flash(context)
+    
+    return render_template('resource_view.html', **context)

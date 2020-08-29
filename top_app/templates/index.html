@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Refugee Resources</title>
+        <link href="../static/style.css" rel="stylesheet">
     </head>
 
     <body>
@@ -13,26 +14,35 @@
         </header>
         <table align="center" style="width:50%">
             <tr>
-                <th>        
-                    <img src="../static/images/medical.png" width="200px" height="200px" />
+                <th>    
+                    <form method="POST" action="/resource_view">
+                        <button id="medical-button" value="Medical" name="service_type"></button>
+                    </form>
                 </th>
                 <th>
-                    <img src="../static/images/legal.png" width="200px" height="200px" />
+                    <form method="POST" action="/resource_view">
+                        <button id="legal-button" value="Legal" name="service_type"></button>
+                    </form>
                 </th>
                 <th>
-                    <img src="../static/images/religion.png" width="200px" height="200px" />
+                    <form method="POST" action="/resource_view">
+                        <button id="religion-button" value="Religion" name="service_type"></button>
+                    </form>
                 </th>
             </tr>
             <tr>
                 <th>
-                    <img src="../static/images/medical.png" width="200px" height="200px" />
-                </th>
+                    <form method="POST" action="/resource_view">
+                        <button id="medical-button" value="Medical" name="service_type"></button>
+                    </form>                </th>
                 <th>
-                    <img src="../static/images/legal.png" width="200px" height="200px" />
-                </th>
+                    <form method="POST" action="/resource_view">
+                        <button id="legal-button" value="Legal" name="service_type"></button>
+                    </form>                </th>
                 <th>
-                    <img src="../static/images/religion.png" width="200px" height="200px" />
-                </th>
+                    <form method="POST" action="/resource_view">
+                        <button id="religion-button" value="Religion" name="service_type"></button>
+                    </form>                </th>
             </tr>
         </table>
     </body>
@@ -40,8 +50,5 @@
     <footer align="center" id="footer">
         <p>Non-profits / Other Organizations: Click below to join out database of resources.</p>
         <img src="../static/images/non-profit.png" width="100px" height="100px">
-        {% for message in get_flashed_messages() %}
-            <div class="flash">{{ message }}</div>
-        {% endfor %}
     </footer>
 </html>
