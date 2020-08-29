@@ -4,7 +4,7 @@ This repo contains the code for an app built to help facilitate connecting refug
 
 To run the app locally, pull down all files from this repository into a local directory, open a command line interface (i.e. terminal for Mac/Unix systems), change your directory into the local directory containing the downloaded files, and run the appropriate launch script command for your system listed below: (for now, only a Mac launcher is provided)
 
-$$Mac$$
+*Mac*
 
 . launch_app_mac.sh
 
