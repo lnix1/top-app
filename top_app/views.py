@@ -8,13 +8,13 @@ bp = Blueprint('home', __name__, url_prefix='/')
 def index():
     return render_template('index.html')
 
-# @bp.route('/address')
-# def print_address():
- #   if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
- #   	addr = request.environ['REMOTE_ADDR']
- #   else:
- #   	addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
- #
- #   geocode = DbIpCity.get(addr, api_key='free')
- #   
- #   return addr
+@bp.route('/address')
+def print_address():
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+    	addr = request.environ['REMOTE_ADDR']
+    else:
+    	addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
+ 
+    #geocode = DbIpCity.get(addr, api_key='free')
+    
+    return addr
