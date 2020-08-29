@@ -46,7 +46,6 @@ rfc3986==1.4.0
 selenium==3.141.0
 six==1.15.0
 toml==0.10.1
--e git+https://github.com/lnix1/top_app.git@7f38d9b6b6cd0828c895883abb6a14bb6be2502a#egg=top_app
 tqdm==4.48.2
 twine==3.2.0
 typed-ast==1.4.1
