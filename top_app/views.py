@@ -6,10 +6,7 @@ bp = Blueprint('home', __name__, url_prefix='/')
 
 @bp.route('')
 def index():
-    return render_template('index.html')
 
-@bp.route('/address')
-def print_address():
     if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
     	addr = request.environ['REMOTE_ADDR']
     else:
@@ -17,4 +14,6 @@ def print_address():
  
     geocode = DbIpCity.get(addr, api_key='free')
     
-    return str(geocode.latitude)
+    return render_template('index.html'), str(geocode.latitude)
+
+
