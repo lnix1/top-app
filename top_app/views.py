@@ -13,7 +13,7 @@ def index():
     	addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
  
     geocode = DbIpCity.get(addr, api_key='free')
+
+    flash(geocode.latitude)
     
-    return render_template('index.html'), str(geocode.latitude)
-
-
+    return render_template('index.html')

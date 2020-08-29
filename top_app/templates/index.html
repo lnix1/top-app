@@ -39,6 +39,9 @@
     <hr />
     <footer align="center" id="footer">
         <p>Non-profits / Other Organizations: Click below to join out database of resources.</p>
-        <img src="../static/images/non-profit.png" width="100px" height="100px"
+        <img src="../static/images/non-profit.png" width="100px" height="100px">
+        {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+        {% endfor %}
     </footer>
 </html>
