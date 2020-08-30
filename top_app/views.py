@@ -27,6 +27,7 @@ def resource_view():
                              selector='"building"='+str(serv_type)+'"',
                              includeGeometry=False)
 
+    overpass = Overpass()
     result = overpass.query(query)
     flash(result.elements()[0].tags('name'))
     flash(result.elements()[0].tags('addr:city'))
