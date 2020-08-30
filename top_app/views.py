@@ -24,7 +24,7 @@ def resource_view():
     query = overpassQueryBuilder(bbox=[geocode.latitude-10, geocode.longitude-10, 
                                        geocode.latitude+10, geocode.longitude+10],
                              elementType='node',
-                             selector='"building"='+str(serv_type)+'"',
+                             selector='"building"="'+str(serv_type)+'"',
                              includeGeometry=False)
 
     overpass = Overpass()
