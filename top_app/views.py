@@ -37,4 +37,4 @@ def resource_view():
     #context['service_type'] = request.form['service_type']
     #flash(context)
     
-    return render_template('resource_view.html'}#, **context)
+    return render_template('resource_view.html')#, **context)
