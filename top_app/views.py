@@ -29,8 +29,8 @@ def resource_view():
 
     overpass = Overpass()
     result = overpass.query(query)
-    flash(result.elements()[0].tags('name'))
-    flash(result.elements()[0].tags('addr:city'))
+    flash(result.elements()[0].tag('name'))
+    flash(result.elements()[0].tag('addr:city'))
 
     #context = {}
     #context['latitude'] = geocode.latitude
