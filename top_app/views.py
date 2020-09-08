@@ -14,12 +14,10 @@ def resource_view():
     if request.method == 'POST':
         if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
             addr = request.environ['REMOTE_ADDR']
-            geocode = DbIpCity.get(addr, api_key='free')
         else:
             addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
-            geocode = DbIpCity.get(addr, api_key='free')
             
-    
+    geocode = DbIpCity.get(addr, api_key='free')
     serv_type = request.form['service_type']
 
     if (serv_type in ['hospital', 'place_of_worship']):
