@@ -6,7 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">   
         <link href="../static/style.css" rel="stylesheet">
         <link href="../static/colors.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+        <link href="../static/style2.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" type="image/jpg" href="../static/images/refugee-unhcr-yellow.png"/>
         <style>
             .w3-bar-block .w3-bar-item {padding:20px}
             .w3-quarter img{margin-bottom: -6px; cursor: pointer}
@@ -23,66 +25,66 @@
         </nav>
         <!-- Top menu -->
         <div class="w3-top">
-            <div class="w3-white w3-xlarge w3-padding-16" style="max-width:1200px;margin:auto">
+            <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
                 <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
-                <div class="w3-center w3-padding-16">Refugee Resources (or other app name)</div>
+                <div class="w3-center w3-padding-16"><h1>Refugee Resources</h1></div>
             </div>
         </div>
         
         <!-- !PAGE CONTENT! -->
         <div class="w3-main w3-content" style="max-width:1200px;margin-top:100px">
             <div class="w3-row-padding w3-padding-16 w3-center" id="services-row-1">
-                <div class="w3-third">
+                <div class="w3-third button">
                     <form method="POST" action="/resource_view">
                         <button class="w3-button w3-padding-16" id="medical-button" value="hospital" name="service_type">
-                            <img src="../static/images/medical_pic.jpeg" class="fill-vertical fill-horizontal">
+                            <img src="../static/images/hospital-ward-symbol.png" alt="Medical" class="fill-vertical fill-horizontal">
+                            <p>Medical</p>
                         </button>
                     </form>
-                    <p>Medical</p>
                 </div>
-                <div class="w3-third">
+                <div class="w3-third button">
                     <form method="POST" action="/resource_view">
                         <button class="w3-button w3-padding-16" id="legal-button" value="lawyer" name="service_type">
-                            <img src="../static/images/legal_pic.jpeg" class="fill-vertical fill-horizontal">
+                            <img src="../static/images/legal_2.png" alt="Legal" class="fill-vertical fill-horizontal">
+                            <p>Legal</p>
                         </button>
                     </form>
-                    <p>Legal</p>
                 </div>
-                <div class="w3-third">
+                <div class="w3-third button">
                     <form method="POST" action="/resource_view">
                         <button class="w3-button w3-padding-16" id="religion-button" value="place_of_worship" name="service_type">
-                            <img src="../static/images/religions.jpg" class="fill-vertical fill-horizontal">
+                            <img src="../static/images/religion-2.png" alt="Religious" class="fill-vertical fill-horizontal">
+                            <p>Religious</p>
                         </button>
                     </form>
-                    <p>Religious</p>
                 </div>
             </div>
             <div class="w3-row-padding w3-padding-16 w3-center" id="services-row-2">
-                <div class="w3-third">
+                <div class="w3-third button">
                     <form method="POST" action="/resource_view">
                         <button class="w3-button w3-padding-16" id="social-button" value="mental_health" name="service_type">
-                            <img src="../static/images/housing_pic.jpeg" class="fill-vertical fill-horizontal">
+                            <img src="../static/images/housing.png" alt="Housing" class="fill-vertical fill-horizontal">
+                             <p>Mental Health</p>
                         </button>
                     </form>
-                    <p>Mental Health</p>
                 </div>
                 <div class="w3-third">
                     <!--<form method="POST" action="/resource_view">-->
                         <button class="w3-button w3-padding-16" id="government-button" value="" name="service_type">
-                                <img src="../static/images/government_pic.jpeg" class="fill-vertical fill-horizontal">
+                               <img src="../static/images/government.png" alt="Government" class="fill-vertical fill-horizontal">
+                               <p>Government</p>
                         </button>
                     <!--</form>-->
-                    <p>Government</p>
                 </div>
                 <div class="w3-third">
                     <!--<form method="POST" action="/resource_view">-->
-                        <button class="w3-button w3-padding-16" id="other-button" value="" name="service_type">
-                            <img src="../static/images/other_pic.jpeg" class="fill-vertical fill-horizontal">
+                        <button class="w3-button w3-padding-16" id="bank-button" value="" name="service_type">
+                            <img src="../static/images/bank.png" alt="Other" class="fill-vertical fill-horizontal">
+                            <p>Banking</p>
                         </button>
                     <!--</form>-->
-                    <p>Other</p>
                 </div>
-            </div>
+            </div>  
         </div>
         <script>
             // Script to open and close sidebar

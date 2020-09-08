@@ -10,7 +10,7 @@ def index():
 
 @bp.route('/resource_view', methods=('GET', 'POST'))
 def resource_view():
-
+    # comment out to hardcode ip address
     if request.method == 'POST':
         if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
             addr = request.environ['REMOTE_ADDR']
