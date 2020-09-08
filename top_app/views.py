@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, request, flash
 from ip2geotools.databases.noncommercial import DbIpCity
 from OSMPythonTools.overpass import Overpass, overpassQueryBuilder
 
-
 bp = Blueprint('home', __name__, url_prefix='/')
 
 @bp.route('')
@@ -17,28 +16,43 @@ def resource_view():
             addr = request.environ['REMOTE_ADDR']
         else:
             addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
-    
-    #put known ip address in brackets
-    addr = []
-
+            
     geocode = DbIpCity.get(addr, api_key='free')
     serv_type = request.form['service_type']
 
-    query = overpassQueryBuilder(bbox=[geocode.latitude-10, geocode.longitude-10, 
-                                       geocode.latitude+10, geocode.longitude+10],
-                             elementType='node',
-                             selector='"building"="'+str(serv_type)+'"',
-                             includeGeometry=False)
+    if (serv_type in ['hospital', 'place_of_worship']):
+        query = overpassQueryBuilder(bbox=[geocode.latitude-1, geocode.longitude-1, 
+                                        geocode.latitude+1, geocode.longitude+1],
+                                    elementType='node',
+                                    selector=['"amenity"="'+str(serv_type)+'"'],
+                                    includeGeometry=False)
+    elif (serv_type in ['mental_health']):
+        query = overpassQueryBuilder(bbox=[geocode.latitude-10, geocode.longitude-10, 
+                                        geocode.latitude+10, geocode.longitude+10],
+                                    elementType='node',
+                                    selector=['"social_facility:for"="'+str(serv_type)+'"'],
+                                    includeGeometry=False)
+    else:
+        query = overpassQueryBuilder(bbox=[geocode.latitude-1, geocode.longitude-1, 
+                                        geocode.latitude+1, geocode.longitude+1],
+                                    elementType='node',
+                                    selector=['"office"="'+str(serv_type)+'"'],
+                                    includeGeometry=False)
 
     overpass = Overpass()
-    result = overpass.query(query)
-    flash(result.elements()[21].tag('name'))
-    flash(result.elements()[21].tag('addr:city'))
-
-    #context = {}
-    #context['latitude'] = geocode.latitude
-    #context['longitude'] = geocode.longitude
-    #context['service_type'] = request.form['service_type']
-    #flash(context)
+    result = overpass.query(query).toJSON()
     
-    return render_template('resource_view.html')#, **context)
+    context = {
+        "type": "FeatureCollection",
+        "features": [
+        {
+            "type": "Feature",
+            "properties" : d['type'],
+            "geometry" : {
+                "type": "Point",
+                "coordinates": [d["lon"], d["lat"]],
+                },
+        } for d in result['elements']]
+    }
+    
+    return render_template('resource_view.html', context = context, coords = [geocode.latitude, geocode.longitude])
