@@ -33,6 +33,6 @@ button {
     background-color: transparent;
 }
 
-img:hover {
+.service-icon:hover {
     background-color: #FAEB00;
   }
