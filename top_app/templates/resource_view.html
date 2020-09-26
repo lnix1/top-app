@@ -65,9 +65,12 @@
             }).addTo(mymap);
             
             var data = JSON.parse('{{ context | tojson | safe }}');
-
-            var myLayer = L.geoJSON().addTo(mymap);
-            myLayer.addData(data); 
+            function onEachFeature(feature, layer) {
+                var popupContent = "Name:"+feature.properties['name']+"<br> Amenity:"+feature.properties['amenity'];
+                layer.bindPopup(popupContent);
+            }
+            var myLayer = L.geoJSON(data,{onEachFeature: onEachFeature}).addTo(mymap);
+            
 
             
 
@@ -77,18 +80,18 @@
                 layer.bindPopup('<h1 class="flash">'{{ message }}'</h1>');
                 }
             }).addTo(mymap);
-        {% endfor %} */
+        {% endfor %} 
 
 /*context.features.properties.tags.name
 type
 */
             
 
-            var popup = L.geoJSON(data, {
+              /*  var popup = L.geoJSON(data, {
                 onEachFeature: function (feature, layer) {
                 layer.bindPopup('<h1>'+test+'</h1>');
                 }
-            }).addTo(mymap); 
+            }).addTo(mymap); */
         </script>
        
 
