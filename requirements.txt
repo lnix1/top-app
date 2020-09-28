@@ -36,6 +36,7 @@ maxminddb==2.0.2
 mccabe==0.6.1
 multidict==4.7.6
 numpy==1.19.1
+osmapi==1.2.2
 OSMPythonTools==0.2.8
 packaging==20.4
 pandas==1.1.1
