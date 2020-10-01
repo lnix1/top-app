@@ -16,13 +16,12 @@ def resource_view():
     #        addr = request.environ['REMOTE_ADDR']
     #    else:
     #        addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
-
-    addr = '69.140.241.227'
-    
+    addr = "69.140.241.227"
+            
     geocode = DbIpCity.get(addr, api_key='free')
     serv_type = request.form['service_type']
 
-    if (serv_type in ['hospital', 'place_of_worship']):
+    if (serv_type in ['hospital', 'place_of_worship','bank']):
         query = overpassQueryBuilder(bbox=[geocode.latitude-1, geocode.longitude-1, 
                                         geocode.latitude+1, geocode.longitude+1],
                                     elementType='node',
@@ -49,7 +48,7 @@ def resource_view():
         "features": [
         {
             "type": "Feature",
-            "properties" : d['type'],
+            "properties" : d['tags'],
             "geometry" : {
                 "type": "Point",
                 "coordinates": [d["lon"], d["lat"]],
