@@ -1,0 +1,146 @@
+<html>
+<head>
+  <title>Address Lookup</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">   
+  <link href="../static/style.css" rel="stylesheet">
+  <link href="../static/colors.css" rel="stylesheet">
+  <link href="../static/style2.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" type="image/jpg" href="../static/images/refugee-unhcr-yellow.png"/>
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+  <style type="text/css">
+  html, body { width:100%;padding:0;margin:0; }
+  .container { width:95%;max-width:980px;padding:1% 2%;margin:0 auto }
+  #lat, #lon { text-align:right }
+  #map { width:100%;height:50%;padding:0;margin:0; }
+  .address { cursor:pointer }
+  .address:hover { color:#AA0000;text-decoration:underline }
+  .w3-bar-block .w3-bar-item {padding:20px}
+  .w3-quarter img{margin-bottom: -6px; cursor: pointer}
+  .w3-quarter img:hover{opacity: 0.6; transition: 0.3s}
+  </style>
+</head>
+<body>
+  <!-- Sidebar (hidden by default) -->
+  <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-top w3-xlarge w3-animate-left" style="display:none;z-index:2;width:20%;min-width:150px" id="mySidebar">
+    <a href="/" onclick="w3_close()"
+    class="w3-bar-item w3-button">Find Resources</a>
+    <a href="/lookup" onclick="w3_close()"
+    class="w3-bar-item w3-button">For Organizations</a>
+  </nav>
+  <div class="w3-top">
+    <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+        <div class="w3-button w3-padding-16 w3-left" onclick="w3_open()">☰</div>
+    </div>
+  </div>
+  <br />
+  <div class="container">
+    <b>Address Lookup</b>
+    <div id="search">
+      <input type="text" name="addr" value="" id="addr" size="58" />
+      <button type="button" onclick="addr_search();">Search</button>
+    </div>
+    <br />
+    <div>
+      <form method="POST" action="/tagging">
+        <div id="results" name="results"></div>
+        <br />
+        <div id="map"></div>
+        <br />
+        <div>
+          <b>Is this the correct address?</b>
+          <button type="submit" class="w3-button w3-padding-16" name="yes_no" id="yes_no">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    // Script to open and close sidebar
+    function w3_open() {
+              document.getElementById("mySidebar").style.display = "block";
+            }
+             
+    function w3_close() {
+      document.getElementById("mySidebar").style.display = "none";
+    }
+
+    // New York
+    var startlat = 40.75637123;
+    var startlon = -73.98545321;
+
+    var options = {
+    center: [startlat, startlon],
+    zoom: 9
+    }
+
+
+    var map = L.map('map', options);
+    var nzoom = 12;
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {attribution: 'OSM'}).addTo(map);
+
+    var myMarker = L.marker([startlat, startlon], {title: "Coordinates", alt: "Coordinates", draggable: true}).addTo(map).on('dragend', function() {
+    var lat = myMarker.getLatLng().lat.toFixed(8);
+    var lon = myMarker.getLatLng().lng.toFixed(8);
+    var czoom = map.getZoom();
+    if(czoom < 18) { nzoom = czoom + 2; }
+    if(nzoom > 18) { nzoom = 18; }
+    if(czoom != 18) { map.setView([lat,lon], nzoom); } else { map.setView([lat,lon]); }
+    myMarker.bindPopup("Lat " + lat + "<br />Lon " + lon).openPopup();
+    });
+
+    function chooseAddr(lat1, lng1, arr)
+    {
+    myMarker.closePopup();
+    map.setView([lat1, lng1],18);
+    myMarker.setLatLng([lat1, lng1]);
+    lat = lat1.toFixed(8);
+    lon = lng1.toFixed(8);
+    myMarker.bindPopup("Lat " + lat + "<br />Lon " + lon).openPopup();
+    document.getElementById('yes_no').value = arr;
+    }
+
+    function myFunction(arr)
+    {
+    var out = "<br />";
+    var i;
+
+    if(arr.length > 0)
+    {
+      out = "<b>Click to display location on the map:</b>";
+      for(i = 0; i < arr.length; i++)
+      {
+      out += "<br /><div class='address' title='Show Location and Coordinates' onclick='chooseAddr(" + arr[i].lat + ", " + arr[i].lon + ", \"" + arr[i].display_name + "\");return false;'>" + arr[i].display_name + "</div>";
+      }
+      document.getElementById('results').innerHTML = out;
+    }
+    else
+    {
+      document.getElementById('results').innerHTML = "Sorry, no results...";
+    }
+    }
+
+    function addr_search()
+    {
+    var inp = document.getElementById("addr");
+    var xmlhttp = new XMLHttpRequest();
+    var url = "https://nominatim.openstreetmap.org/search?format=json&limit=3&q=" + inp.value;
+    xmlhttp.onreadystatechange = function()
+    {
+      if (this.readyState == 4 && this.status == 200)
+      {
+        var myArr = JSON.parse(this.responseText);
+        myFunction(myArr);
+      }
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+    }
+  </script>
+
+</body>
+</html>
