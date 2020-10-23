@@ -22,6 +22,15 @@
             class="w3-bar-item w3-button">Find Resources</a>
             <a href="/lookup" onclick="w3_close()"
             class="w3-bar-item w3-button">For Organizations</a>
+            <div class="w3-bottom">
+                {% if g.user %}
+                <span class="w3-bar-item w3-button">User: {{ g.user['username'] }}</span>
+                <a href="{{ url_for('home.logout') }}" class="w3-bar-item w3-button">Log Out</a>
+                {% else %}
+                    <a href="{{ url_for('home.register') }}" class="w3-bar-item w3-button">Register</a>
+                    <a href="{{ url_for('home.login') }}" class="w3-bar-item w3-button">Log In</a>
+                {% endif %}
+            </div>
         </nav>
         <!-- Top menu -->
         <div class="w3-top">

@@ -30,6 +30,12 @@
     class="w3-bar-item w3-button">Find Resources</a>
     <a href="/lookup" onclick="w3_close()"
     class="w3-bar-item w3-button">For Organizations</a>
+    <div class="w3-bottom">
+      {% if g.user %}
+        <span class="w3-bar-item w3-button">User: {{ g.user['username'] }}</span>
+        <a href="{{ url_for('home.logout') }}" class="w3-bar-item w3-button">Log Out</a>
+      {% endif %}
+    </div>
   </nav>
   <div class="w3-top">
     <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
