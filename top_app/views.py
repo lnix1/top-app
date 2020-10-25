@@ -17,7 +17,7 @@ def resource_view():
         else:
             addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
 
-    #addr = "98.163.214.113"       
+    addr = "98.163.214.113"       
     geocode = DbIpCity.get(addr, api_key='free')
     serv_type = request.form['service_type']
 
