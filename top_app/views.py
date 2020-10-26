@@ -60,7 +60,10 @@ def login():
         username = request.form['username']
         password = request.form['password']
         error = None
-        user = db.session.query(User).filter(User.username == username).one()
+        try:
+            user = db.session.query(User).filter(User.username == username).one()
+        except:
+            user = None
 
         if user is None:
             error = 'Incorrect username.'
