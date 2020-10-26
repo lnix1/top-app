@@ -4,9 +4,9 @@ This repo contains the code for an app built to help facilitate connecting refug
 
 ### Programs needed to run:
 
-Python3
+- Python3
 
-Familiarity with the Terminal
+- Familiarity with the Terminal
 
 
 To run the app locally, download all files from this repository into a local directory and then follow the directions for your operating system.
