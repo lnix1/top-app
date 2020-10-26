@@ -2,7 +2,6 @@
 
 body {
     font-family: 'Lato', sans-serif;
-    font-size: 1em;
 }
 
 h1 {
@@ -10,15 +9,7 @@ h1 {
     font-weight: 900;
     color: #3872BB;
     font-size: 2em;
-    text-align: center;
 }
-
-h2 {
-  font-family: "Lato", sans-serif;
-  font-size: 1.5em;
-  font-weight: 700;
-}
-
 
 #header {
     position: fixed;
@@ -51,65 +42,16 @@ button {
     background-color: #FAEB00;
 }
 
-#mySidebar {
-  background-color: #ddd !important;
-  color: #0172BC !important;
-  min-width: 200px !important;
-}
-
-.container { 
-  width:95%;
-  max-width:980px
-  ;padding:1% 2%;
-  margin:0 auto; 
-}
-
-#description {
-  padding: 10px;
-}
-
-#yes_no {
-  background-color: #0172BC;
-  max-width: 200px;
-  margin-left: 10px;
-  color: #fff;
-}
-
-/* @media only screen and (min-width: 601px) {
-    #mobilemenu {
-        display: none;
-    }
-} */
-
 @media only screen and (max-width: 600px) {
     h1 {
-        font-size: 2em;
+        font-size: 1.5em;
     }
-   #mapid, #map {
+   #mapid {
         max-height: 80vh;
    }
-   #desktopmenu {
-       display: none;
-   }
-
-   input {
-     max-width: 300px;
-   }
 
 }
 
-@media only screen and (min-width: 600px) {
-    #mobilemenu {
-        display: none;
-    }
-    #icon-container {
-        margin-top: 145px;
-    }
-    .container {
-      margin-top: 100px; 
-    }
-
-}
 
 
   /* styles from leaflet */
@@ -122,58 +64,45 @@ html, body, #mapid {
     width: 100vw;
 } */
 
+
 /* Style the navigation menu */
-.topnav {
+#mobile-header {
     overflow: hidden;
-    background-color: #fff;
+    background-color: #333;
     position: relative;
-    max-width: 1200px;
-    margin: auto;
   }
   
   /* Hide the links inside the navigation menu (except for logo/home) */
-  .topnav #myLinks {
+  #mobile-header #myLinks {
     display: none;
   }
   
   /* Style navigation menu links */
-  .topnav a {
-    color: #0172BC;
+  #mobile-header a {
+    color: white;
     padding: 14px 16px;
     text-decoration: none;
     font-size: 17px;
     display: block;
   }
-
-  #myLinks {
-    background-color: #ddd;
-  }
   
   /* Style the hamburger menu */
-  .topnav a.icon {
-    background:#fff;
+  #mobile-header a.icon {
+    background: black;
     display: block;
     position: absolute;
-    left: 10px;
-    top: 10px;
-  }
-
-  .topnav {
-    color: #0172BC;
+    right: 0;
+    top: 0;
   }
   
-  a.icon {
-    color: #464646;
-
-  }
   /* Add a grey background color on mouse-over */
-  .topnav a:hover {
-    background-color: #fff;
+  #mobile-header a:hover {
+    background-color: #ddd;
     color: black;
   }
   
   /* Style the active link (or home/logo) */
   .active {
+    background-color: #4CAF50;
     color: white;
-    background-color: #fff;
   }
