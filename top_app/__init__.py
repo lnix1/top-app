@@ -6,7 +6,7 @@ from flask_heroku import Heroku
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///top_app"
+    #app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql:///top_app"
     app.config['SECRET_KEY'] = 'dev'
     
     if test_config is None:
