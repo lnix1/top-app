@@ -31,14 +31,24 @@
                 <a href="/lookup">Add an Organization</a>
             </div>
             <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
-            
             </div>
         </div>
         <div id="desktopmenu">
             <!-- Sidebar (hidden by default) -->
             <nav class="w3-sidebar w3-bar-block w3-black w3-card w3-top w3-xlarge w3-animate-left" style="display:none;z-index:2;width:20%;min-width:150px" id="mySidebar">
-                <a href="/" onclick="w3_close()" class="w3-bar-item w3-button">Find Resources</a>
-                <a href="/lookup" onclick="w3_close()" class="w3-bar-item w3-button">For Organizations</a>
+                <a href="/" onclick="w3_close()"
+                class="w3-bar-item w3-button">Find Resources</a>
+                <a href="/lookup" onclick="w3_close()"
+                class="w3-bar-item w3-button">For Organizations</a>
+                <div class="w3-bottom">
+                    {% if g.user %}
+                    <span class="w3-bar-item w3-button">User: {{ g.user['username'] }}</span>
+                    <a href="{{ url_for('home.logout') }}" class="w3-bar-item w3-button">Log Out</a>
+                    {% else %}
+                        <a href="{{ url_for('home.register') }}" class="w3-bar-item w3-button">Register</a>
+                        <a href="{{ url_for('home.login') }}" class="w3-bar-item w3-button">Log In</a>
+                    {% endif %}
+                </div>
             </nav>
             <!-- Top menu -->
             <div class="w3-top">
