@@ -23,7 +23,7 @@ def create_app(test_config=None):
     return app
 
 top_app = create_app()
-#heroku = Heroku(top_app)
+heroku = Heroku(top_app)
 db = SQLAlchemy(top_app)
 
 class User(db.Model):
