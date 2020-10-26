@@ -1,7 +1,12 @@
 # TOP: Refugee Sprint REPO (Georgetown Team, Fall 2020)
 
-This repo contains the code for an app built to help facilitate connecting refugees entering the United States with various non-profit resources. The app is intended to leverage open source solutions to the issue of database construction and management around cataloging, and making publicly available, a list of non-profits offering various services to aid refugees.
+This repo contains the code for an app built to help facilitate connecting refugees entering the United States with various non-profit resources. The app is intended to leverage open source solutions to the issue of database construction and management around cataloging, and making publicly available, a list of non-profits offering various services to aid refugees. The database used here is OpenStreetMaps and the app relies heavily on various OSM Python Wrappers.
 
+### Programs needed to run:
+
+Python3
+
+Familiarity with the Terminal
 
 
 To run the app locally, download all files from this repository into a local directory and then follow the directions for your operating system.
