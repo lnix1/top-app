@@ -1,108 +1,32 @@
-from flask import Blueprint, render_template, request, flash, g, redirect, session, url_for
+from flask import Blueprint, render_template, request, flash
 from ip2geotools.databases.noncommercial import DbIpCity
 from OSMPythonTools.overpass import Overpass, overpassQueryBuilder
 import requests
 from xml.etree import ElementTree
 from itertools import chain
-from werkzeug.security import check_password_hash, generate_password_hash
-import functools
-from top_app import db, User
 
 bp = Blueprint('home', __name__, url_prefix='/')
-
-@bp.before_app_request
-def load_logged_in_user():
-    user_id = session.get('user_id')
-
-    if user_id is None:
-        g.user = None
-    else:
-        g.user = db.session.query(User).filter(User.id == user_id).one()
-
-def login_required(view):
-    @functools.wraps(view)
-    def wrapped_view(**kwargs):
-        if g.user is None:
-            return redirect(url_for('home.login'))
-
-        return view(**kwargs)
-
-    return wrapped_view
 
 @bp.route('/')
 def index():
     return render_template('index.html')
 
-@bp.route('/register', methods=('GET', 'POST'))
-def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        error = None
-
-        if not username:
-            error = 'Username is required.'
-        elif not password:
-            error = 'Password is required.'
-        elif db.session.query(User).filter(User.username == username).count() != 0:
-            error = 'User {} is already registered.'.format(username)
-
-        if error is None:
-            u = User(username = username, password = generate_password_hash(password))
-            db.session.add(u)
-            db.session.commit()
-            return redirect(url_for('home.login'))
-
-        flash(error)
-
-    return render_template('register.html')
-
-@bp.route('/login', methods=('GET', 'POST'))
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        error = None
-        try:
-            user = db.session.query(User).filter(User.username == username).one()
-        except:
-            user = None
-
-        if user is None:
-            error = 'Incorrect username.'
-        elif not check_password_hash(user.password, password):
-            error = 'Incorrect password.'
-
-        if error is None:
-            session.clear()
-            session['user_id'] = user.id
-            return redirect(url_for('home.index'))
-
-        flash(error)
-
-    return render_template('login.html')
-
-@bp.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('home.index'))
-
 @bp.route('/resource_view', methods=('GET', 'POST'))
 def resource_view():
     # comment out to hardcode ip address
-    if request.method == 'POST':
-        if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-            addr = request.environ['REMOTE_ADDR']
-        else:
-            addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
-    #addr ="76.176.72.174"
+    #if request.method == 'POST':
+    #    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+    #        addr = request.environ['REMOTE_ADDR']
+    #    else:
+    #        addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
+    addr ="76.176.72.174"
 
     #addr = "98.163.214.113"       
     geocode = DbIpCity.get(addr, api_key='free')
     serv_type = request.form['service_type']
     overpass = Overpass()
 
-    if (serv_type in ['place_of_worship','childcare']):
+    if (serv_type in ['childcare']):
         query1 = overpassQueryBuilder(bbox=[geocode.latitude-1, geocode.longitude-1, 
                                         geocode.latitude+1, geocode.longitude+1],
                                     elementType=['node','way'],
@@ -144,24 +68,21 @@ def resource_view():
                                     includeGeometry=False)
         result = overpass.query(query).toJSON()
         result = result['elements']
+
+    
+    
+        
     
     for element in result:
         if element['type']=='way':
-            apiquery = requests.get("https://api.openstreetmap.org/api/0.6/node/"+str(element['id']))
-            if apiquery.content != b'':
-                apitree = ElementTree.fromstring(apiquery.content)
-                for child in apitree.iter('node'):
-                    element['cord'] = [float(child.attrib['lon']),float(child.attrib['lat'])]
-                element['type'] ='Point'
-            else:
-                length = len(element['nodes'])
-                element['cord']=list(range(0,length))
-                for idnum in range(0,length):
-                    apiquery2 = requests.get("https://api.openstreetmap.org/api/0.6/node/"+str(element['nodes'][idnum]))
-                    apitree2 = ElementTree.fromstring(apiquery2.content)
-                    for child in apitree2.iter('node'):
-                        element['cord'][idnum] = [float(child.attrib['lon']),float(child.attrib['lat'])]   
-                element['type'] ='LineString'
+            element['type'] ='LineString' 
+            length = len(element['nodes'])
+            element['cord']=list(range(0,length))
+            for idnum in range(0,length):
+                apiquery2 = requests.get("https://api.openstreetmap.org/api/0.6/node/"+str(element['nodes'][idnum]))
+                apitree2 = ElementTree.fromstring(apiquery2.content)
+                for child in apitree2.iter('node'):
+                    element['cord'][idnum] = [float(child.attrib['lon']),float(child.attrib['lat'])]     
         else:
             element['type'] ='Point'
             element['cord'] = [element['lon'],element['lat']]
@@ -180,21 +101,20 @@ def resource_view():
         } for d in result]
     }
     
+    
+    
     return render_template('resource_view.html', context = context, coords = [geocode.latitude, geocode.longitude])
 
 @bp.route('/lookup', methods=('GET', 'POST'))
-@login_required
 def lookup():
     return render_template('lookup.html')
 
 @bp.route('/tagging', methods=('GET', 'POST'))
-@login_required
 def tagging():
     tag_address = request.form['yes_no']
     return render_template('tagging.html', context = tag_address)
 
 @bp.route('write_osm', methods=('GET', 'POST'))
-@login_required
 def write_osm():
     context = {
         'org-name' : request.form['org-name'],
