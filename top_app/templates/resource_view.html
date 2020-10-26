@@ -37,6 +37,10 @@
             <div id="myLinks">
                 <a href="/">Find Resources</a>
                 <a href="/">Add an Organization</a>
+                {% if g.user %}
+            <span class="w3-bar-item w3-button">User: {{ g.user['username'] }}</span>
+            <a href="{{ url_for('home.logout') }}" class="w3-bar-item w3-button">Log Out</a>
+          {% endif %}
             </div>
             <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
             

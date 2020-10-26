@@ -208,8 +208,6 @@ a{color:inherit}
 #mapid { height: 540px; width: 1200px; position: absolute; z-index:-1;}
 
 #map { z-index:-1;}
-
-#map { z-index:-1;}
 body {
     background-color: white; 
  }
