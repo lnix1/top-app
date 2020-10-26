@@ -3,7 +3,7 @@ from ip2geotools.databases.noncommercial import DbIpCity
 from OSMPythonTools.overpass import Overpass, overpassQueryBuilder
 from werkzeug.security import check_password_hash, generate_password_hash
 import functools
-from top_app.db import get_db
+from top_app import db, User
 
 bp = Blueprint('home', __name__, url_prefix='/')
 
@@ -14,9 +14,7 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        g.user = db.session.query(User).filter(User.id == user_id).one()
 
 def login_required(view):
     @functools.wraps(view)
@@ -37,24 +35,19 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        db = get_db()
         error = None
 
         if not username:
             error = 'Username is required.'
         elif not password:
             error = 'Password is required.'
-        elif db.execute(
-            'SELECT id FROM user WHERE username = ?', (username,)
-        ).fetchone() is not None:
+        elif db.session.query(User).filter(User.username == username).count() != 0:
             error = 'User {} is already registered.'.format(username)
 
         if error is None:
-            db.execute(
-                'INSERT INTO user (username, password) VALUES (?, ?)',
-                (username, generate_password_hash(password))
-            )
-            db.commit()
+            u = User(username = username, password = generate_password_hash(password))
+            db.session.add(u)
+            db.session.commit()
             return redirect(url_for('home.login'))
 
         flash(error)
@@ -66,20 +59,17 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        db = get_db()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
+        user = db.session.query(User).filter(User.username == username).one()
 
         if user is None:
             error = 'Incorrect username.'
-        elif not check_password_hash(user['password'], password):
+        elif not check_password_hash(user.password, password):
             error = 'Incorrect password.'
 
         if error is None:
             session.clear()
-            session['user_id'] = user['id']
+            session['user_id'] = user.id
             return redirect(url_for('home.index'))
 
         flash(error)
