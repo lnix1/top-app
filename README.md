@@ -37,7 +37,23 @@ CREATE DATABASE top_app;
 
 \q
 
-5. And now the table for registering Users is created within the Database! Open the file called '__init__.py' within the top_app folder and change the line that reads: 
+5. Change directories in the Terminal to the outer most 'top_app' folder and run the following:
+
+. venv/bin/activate
+
+cd top_app/
+
+python3
+
+6. With Python running, run the following:
+
+from __init__ import db
+
+db.create_all()
+
+quit()
+
+7. And now the table for registering Users is created within the Database! Open the file called '__init__.py' within the top_app folder and change the line that reads: 
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql:///top_app"
 
@@ -45,9 +61,11 @@ to
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://localhost/top_app"
 
-6. From the Terminal, change directories to outer most folder labeled 'top_app' and run the following:
+8. From the Terminal, change directories to outer most folder labeled 'top_app' and run the following:
 
 . launch_ap.sh
+
+9. A line should appear the local address (e.g. it will say 'Running on http://127.0.0.1:5000/'). Copy and paste the address into an incognito browser to view and test the app.
 
 
 
@@ -83,6 +101,8 @@ quit()
 5. And now the table for registering Users is created within the Database! In the Terminal, change directories back to the outer most folder labeled 'top_app' and run the following command to launch the app:
 
 . launch_app.sh
+
+6. A line should appear the local address (e.g. it will say 'Running on http://127.0.0.1:5000/'). Copy and paste the address into an incognito browser to view and test the app.
 
 
 
