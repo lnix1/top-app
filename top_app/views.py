@@ -179,8 +179,19 @@ def resource_view():
                 },
         } for d in result]
     }
+
+    if serv_type in 'hospital':
+        serv_name = 'Medical Services'
+    elif serv_type in 'lawyer':
+        serv_name = 'Legal Services'
+    elif serv_type in 'place_of_worship':
+        serv_name = 'Religous Communities'
+    elif serv_type in 'mental_health':
+        serv_name = 'Metal Health Services'
+    else:
+        serv_name = 'Child Care Services'
     
-    return render_template('resource_view.html', context = context, coords = [geocode.latitude, geocode.longitude])
+    return render_template('resource_view.html', context = context, coords = [geocode.latitude, geocode.longitude], page_name = serv_name)
 
 @bp.route('/lookup', methods=('GET', 'POST'))
 @login_required
