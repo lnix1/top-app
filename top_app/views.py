@@ -102,7 +102,7 @@ def resource_view():
     serv_type = request.form['service_type']
     overpass = Overpass()
 
-    if (serv_type in ['place_of_worship','childcare']):
+    if (serv_type in ['childcare']):
         query1 = overpassQueryBuilder(bbox=[geocode.latitude-1, geocode.longitude-1, 
                                         geocode.latitude+1, geocode.longitude+1],
                                     elementType=['node','way'],
