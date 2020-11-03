@@ -118,7 +118,7 @@
             
             var data = JSON.parse('{{ context | tojson | safe }}');
             function onEachFeature(feature, layer) {
-                var popupContent = "<strong>Name: </strong>"+feature.properties['name']+"<br> <strong>Amenity: </strong>"+feature.properties['amenity'];
+                var popupContent = "<strong>Name: </strong>"+feature.properties['name']+"<br> <strong>Amenity: </strong>"+feature.properties['amenity']+"<br> <strong>Address: </strong>"+feature.properties['addr:housenumber']+" "+feature.properties['addr:street']+"<br>"+feature.properties['addr:city']+" "+feature.properties['addr:postcode'];
                 layer.bindPopup(popupContent);
             }
             var myLayer = L.geoJSON(data,{onEachFeature: onEachFeature}).addTo(mymap);
