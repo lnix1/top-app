@@ -118,7 +118,7 @@
             
             var data = JSON.parse('{{ context | tojson | safe }}');
             function onEachFeature(feature, layer) {
-                var popupContent = "<strong>Name: </strong>"+feature.properties['name']+"<br> <strong>Amenity: </strong>"+feature.properties['amenity']+"<br> <strong>Address: </strong>"+feature.properties['addr:housenumber']+" "+feature.properties['addr:street']+"<br>"+feature.properties['addr:city']+" "+feature.properties['addr:postcode'];
+                var popupContent = "<strong>Name: </strong>"+feature.properties['name']+"<br> <strong>Amenity: </strong>"+feature.properties['amenity']+"<br> <strong>Address: </strong>"+feature.properties['addr:housenumber']+" "+feature.properties['addr:street']+"<br>"+feature.properties['addr:city']+" "+feature.properties['addr:postcode'] + "<br> <a href='https://www.google.com/maps/search/?api=1&query=" + feature.geometry['coordinates'][1] + "," + feature.geometry['coordinates'][0] +"'><strong>Find this on Google Maps.</strong></a>";
                 layer.bindPopup(popupContent);
             }
             var myLayer = L.geoJSON(data,{onEachFeature: onEachFeature}).addTo(mymap);

@@ -90,14 +90,14 @@ def logout():
 @bp.route('/resource_view', methods=('GET', 'POST'))
 def resource_view():
     # comment out to hardcode ip address
-    #if request.method == 'POST':
-    #    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
-    #        addr = request.environ['REMOTE_ADDR']
-    #    else:
-    #        addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
-    addr ="76.176.72.174"
+    if request.method == 'POST':
+        if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+            addr = request.environ['REMOTE_ADDR']
+        else:
+            addr = request.environ['HTTP_X_FORWARDED_FOR'] # if behind a proxy
+    #addr ="76.176.72.174"
 
-    #saddr = "98.163.214.113"       
+    #addr = "98.163.214.113"       
     geocode = DbIpCity.get(addr, api_key='free')
     serv_type = request.form['service_type']
     overpass = Overpass()
